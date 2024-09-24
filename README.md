@@ -8,7 +8,7 @@ json.
 
 ## Документация
 
-Пользовательскую документацию можно получить по [этой ссылке](file:///C:/lab/iwtd_oop/lab1++/docs/html/index.html).
+Пользовательскую документацию можно получить по [этой ссылке](docs/html/index.html).
 
 ## Зависимости
 - Компилятор C++20 или C++23 (например, GCC 10+, MSVC 2019+).
@@ -52,7 +52,7 @@ CMakeLists.txt - Файл настройки CMake.
 
 ## Лицензия
 
-Этот проект распространяется под лицензией MIT. Подробности смотрите в файле [LICENSE])(https://github.com/toffi1901/lab1-struct-json/blob/main/LICENSE).
+Этот проект распространяется под лицензией MIT. Подробности смотрите в файле LICENSE(https://github.com/toffi1901/lab1-struct-json/blob/main/LICENSE).
 
 
    
