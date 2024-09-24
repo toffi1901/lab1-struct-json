@@ -1,0 +1,4 @@
+var searchData=
+[
+  ['add_5fstruct_0',['add_struct',['../json__for__string_8cpp.html#ab7976e8429d3c4cd114d783e484930fe',1,'add_struct(string &amp;res, vector&lt; string &gt; &amp;struct_types, vector&lt; string &gt; &amp;names, string struct_name, int count):&#160;json_for_string.cpp'],['../json__obj_8cpp.html#afb4dc2b2e529b5e48411d82a787a427c',1,'add_struct(char *&amp;res, char **struct_types, char **names, char *struct_name, int count):&#160;json_obj.cpp'],['../json__obj_8h.html#afb4dc2b2e529b5e48411d82a787a427c',1,'add_struct(char *&amp;res, char **struct_types, char **names, char *struct_name, int count):&#160;json_obj.cpp'],['../json__obj_8h.html#a684dc173c772f86bae672b0de669a3e9',1,'add_struct(std::string &amp;res, std::vector&lt; std::string &gt; &amp;struct_types, std::vector&lt; std::string &gt; &amp;names, std::string struct_name, int count):&#160;json_obj.h']]]
+];

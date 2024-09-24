@@ -1,20 +1,7 @@
 *.o
 *.out
 *.exe
-*.log
-*.tmp
-*.swp
-*.json
-*.png
-*.tex
-*.sty
-*.svg
-*.js
-*.css
-*.html
-*.a
-*.txt
-*.bat
+
 
 build/
 latex/
