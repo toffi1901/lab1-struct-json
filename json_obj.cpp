@@ -4,12 +4,16 @@
 
 #include "json_obj.h"
 
-#define DELIM ": ,"
+#define DELIM ": ,{}"
 
 using namespace std;
 
 int get_struct(const char *inputt, char **struct_types, char **names)
 {
+    if (!inputt)
+    {
+        return NO;
+    }
     char *str = strdup(inputt);
     const char *types[] = {"char* ",
                            "long ",
@@ -31,13 +35,13 @@ int get_struct(const char *inputt, char **struct_types, char **names)
         if (flag % 2 == 0)
         {
             int type = check_res;
-            struct_types[i] = new char[strlen(types[type])]{};
+            struct_types[i] = new char[strlen(types[type]) + 1]{};
             strcpy(struct_types[i++], types[type]);
         }
         else
         {
             names[j] = new char[strlen(word) - 1]{};
-            char *new_word = new char[strlen(word) - 1];
+            char *new_word = new char[strlen(word) - 1]{};
             strncpy(new_word, word + 1, strlen(word) - 2);
             strcpy(names[j++], new_word);
             delete[] new_word;

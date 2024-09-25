@@ -90,12 +90,12 @@ TEST(get_structTest, EmptyInput)
 TEST(get_structTest, ValidInputChar)
 {
     char *inputt = new char[20];
-    strcpy(inputt, "{\"key\" : 1");
+    strcpy(inputt, "{\"key\" : null}");
     char **struct_types = new char *[1];
     char **names = new char *[1];
     int result = get_struct(inputt, struct_types, names);
-    EXPECT_EQ(result, -1);
-    EXPECT_STREQ(struct_types[0], "long ");
+    EXPECT_EQ(result, 1);
+    EXPECT_STREQ(struct_types[0], "void* ");
     EXPECT_STREQ(names[0], "key");
     delete[] struct_types[0];
     delete struct_types;
@@ -106,8 +106,9 @@ TEST(get_structTest, ValidInputChar)
 
 TEST(get_structTest, InvalidInputChar)
 {
-    char inputt[20] = "{\"key\" : \"=\"";
+    char inputt[20] = "{\"key\" : vfd}";
     char **struct_types = new char *[1];
+    struct_types[0] = NULL;
     char **names = new char *[1];
     int result = get_struct(inputt, struct_types, names);
     EXPECT_EQ(result, -1);
@@ -122,8 +123,8 @@ TEST(get_structTest, InvalidInputChar)
 TEST(get_structTest, EmptyInputChar)
 {
     char *inputt = NULL;
-    char **struct_types;
-    char **names;
+    char **struct_types = NULL;
+    char **names = NULL;
     int result = get_struct(inputt, struct_types, names);
     EXPECT_EQ(result, -1);
     EXPECT_TRUE(struct_types == NULL);
