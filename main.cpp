@@ -1,4 +1,4 @@
-// #include <vld.h>
+#include <vld.h>
 #include <iostream>
 #include <regex>
 
@@ -6,32 +6,36 @@
 
 int main()
 {
-    std::string struct_name;
-    // char *struct_name;
-    std::cout << "Input struct name: ";
     try
     {
-        std::getline(std::cin, struct_name);
+        std::string struct_name;
         std::string inputt;
-        std::cout << "Input json string\n";
-        std::getline(std::cin, inputt);
-        int check_str = check_json(inputt);
-        if (check_str != OK)
+        std::cout << "Input struct name: ";
+        std::getline(std::cin, struct_name);
+        EmptyStrInput(struct_name);
+        bool validInput = false;
+        do
         {
-            std::cout << "Error input, try again\n"
-                      << std::endl;
-            inputt.clear();
-            check_str = check_json(inputt);
-            std::getline(std::cin, inputt);
-        }
+            try
+            {
+                std::cout << "Input json string\n";
+                std::getline(std::cin, inputt);
+                check_json(inputt);
+                validInput = true;
+            }
+            catch (const std::invalid_argument &e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
+        } while (!validInput);
         std::string res;
-        int r = dio(res, inputt, struct_name);
-        if (r == NO)
-        {
-            std::cout << "This format doesn`t match\n"
-                      << std::endl;
-        }
+        dio(res, inputt, struct_name);
         std::cout << res << std::endl;
+    }
+    catch (WrongTypeException &e)
+    {
+        std::cout << "Error word type!\n"
+                  << std::endl;
     }
     catch (const std::regex_error &e)
     {

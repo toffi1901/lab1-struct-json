@@ -3,95 +3,69 @@
 #include <vector>
 #include <string.h>
 #include <algorithm>
+#include <numeric>
 
 #include "json_obj.h"
 
-#define DELIM " ,:{}"
-
-using namespace std;
-
-std::vector<std::string> split(std::string &inputt, int &count)
+std::vector<std::string> split(std::string &inputt)
 {
     std::vector<std::string> tok;
     std::string::size_type start = 0;
-    std::string::size_type end = inputt.find_first_of(DELIM, start);
+    std::string delim = " ,:{}";
+    std::string::size_type end = inputt.find_first_of(delim, start);
     while (end != std::string::npos)
     {
         if (end != start)
         {
             tok.push_back(inputt.substr(start, end - start));
-            count++;
         }
         start = end + 1;
-        end = inputt.find_first_of(DELIM, start);
+        end = inputt.find_first_of(delim, start);
     }
     if (start < inputt.length())
     {
         tok.push_back(inputt.substr(start));
-        count++;
     }
     return tok;
 }
 
-int get_struct(string inputt, vector<string> &struct_types, vector<string> &names)
+void get_struct(const std::string &inputt, std::vector<std::string> &struct_types)
 {
 
-    string str = inputt;
-    const string types[] = {"char* ",
-                            "long ",
-                            "double ",
-                            "bool ",
-                            "void* "};
-
-    int flag(1);
-    int k(0), j(0), count(0);
-    int check_res;
-    vector<string> tok = split(str, count);
-    for (int i = 0; i < count; ++i)
+    std::string str = inputt;
+    const std::string types[] = {"char* ",
+                                 "long ",
+                                 "double ",
+                                 "bool ",
+                                 "void* "};
+    std::string aux_type;
+    std::string aux_name;
+    std::vector<std::string> tok = split(str);
+    for (int i = 0; i < tok.size(); ++i)
     {
-        check_res = check_type(tok[i]);
-        if (check_res == NO)
+
+        int check_res = check_type(tok[i]);
+        if (i % 2 == 1)
         {
-            return check_res;
-        }
-        if (flag % 2 == 0)
-        {
-            struct_types.push_back(types[check_res]);
-            k++;
+            aux_type = types[check_res];
+            aux_type += aux_name;
+            struct_types.push_back(aux_type);
+            aux_type.clear();
         }
         else
         {
-            string new_word = tok[i].substr(1, tok[i].size() - 2);
-            names.push_back(new_word);
-            j++;
+            std::string new_word = tok[i].substr(1, tok[i].size() - 2);
+            aux_name = new_word;
         }
-        flag++;
     }
-    return k;
 }
 
-void add_struct(string &res, vector<string> &struct_types, vector<string> &names, string struct_name, int count)
+void add_struct(std::string &res, std::vector<std::string> &struct_types, const std::string &struct_name)
 {
     res += struct_name;
     res += "\n{\n";
-    vector<string> combo;
-    transform(struct_types.begin(), struct_types.begin() + count, names.begin(), back_inserter(combo), [](const string &type, const string &name)
-              { return type + name; });
-    for_each(combo.begin(), combo.begin() + count - 1, [](string &type)
-             { type += ",\n"; });
-    for_each(combo.begin(), combo.begin() + count, [&res](const string &str)
-             { res += str; });
+    std::for_each(struct_types.begin(), struct_types.end() - 1, [](std::string &type)
+                  { type += ",\n"; });
+    res += std::accumulate(struct_types.begin(), struct_types.end(), std::string());
     res += "\n}";
 }
-
-/*void add_struct(string &res, vector<string> &struct_types, vector<string> &names, string struct_name, int count)
-{
-    res += struct_name;
-    res += "\n{\n";
-    for (int i = 0; i < count; ++i)
-    {
-        res += struct_types[i];
-        res += names[i];
-        (i != count - 1) ? (res += ",\n") : (res += "\n}");
-    }
-}*/

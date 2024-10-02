@@ -11,62 +11,19 @@ void free_strings(char **strings, int count)
                   { delete[] str; });
 }
 
-int dio(char *&res, char *inputt, char *struct_name)
+void dio(char *&res, char *inputt, char *struct_name)
 {
-    char **types;
-    char **names;
-    try
-    {
-        types = new char *[strlen(inputt)];
-        names = new char *[strlen(inputt)];
-        if (!types || !names)
-        {
-            throw std::runtime_error("Error allocating memory\n");
-        }
-    }
-    catch (std::runtime_error &e)
-    {
-        throw e;
-    }
-    int count = 0;
-    try
-    {
-        count = get_struct(inputt, types, names);
-        if (count == NO)
-        {
-            free_strings(names, count);
-            delete[] types;
-            delete[] names;
-            return NO;
-        }
-        else
-        {
-            add_struct(res, types, names, struct_name, count);
-        }
-    }
-    catch (const std::exception &e)
-    {
-        free_strings(types, count);
-        delete[] types;
-        delete[] names;
-        throw e;
-    }
-    return OK;
+    std::string input_str(inputt);
+    std::string str_name(struct_name);
+    std::string str_res;
+    dio(str_res, input_str, str_name);
+    res = new char[str_res.size() + 1];
+    std::strcpy(res, str_res.c_str());
 }
 
-int dio(std::string &res, std::string inputt, std::string struct_name)
+void dio(std::string &res, const std::string &inputt, const std::string &struct_name)
 {
     std::vector<std::string> types;
-    std::vector<std::string> names;
-    int count = get_struct(inputt, types, names);
-    if (count == NO)
-    {
-        res = "";
-        return NO;
-    }
-    else
-    {
-        add_struct(res, types, names, struct_name, count);
-    }
-    return OK;
+    get_struct(inputt, types);
+    add_struct(res, types, struct_name);
 }
