@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['free_5fstrings_0',['free_strings',['../input__struct_8cpp.html#acab162c90d5c11c9122f4348a9445dcf',1,'input_struct.cpp']]]
+  ['split_0',['split',['../json__obj_8h.html#a41978dc33f27b395f1d9b878c88eefee',1,'json_for_string.cpp']]]
 ];

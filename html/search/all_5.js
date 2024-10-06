@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['get_5fstruct_0',['get_struct',['../json__for__string_8cpp.html#aa2d25f684e1f8510bd03846f348d1a4d',1,'get_struct(const std::string &amp;inputt, std::vector&lt; std::string &gt; &amp;struct_types):&#160;json_for_string.cpp'],['../json__obj_8h.html#aa2d25f684e1f8510bd03846f348d1a4d',1,'get_struct(const std::string &amp;inputt, std::vector&lt; std::string &gt; &amp;struct_types):&#160;json_for_string.cpp']]]
+  ['get_5fmessage_0',['get_message',['../class_wrong_type_exception.html#a91d0be872fe5f20e83acabdfba43cae4',1,'WrongTypeException']]],
+  ['get_5fstruct_1',['get_struct',['../json__obj_8h.html#a43cf00dc979a49b11069b1dc6ce1128a',1,'json_for_string.cpp']]]
 ];

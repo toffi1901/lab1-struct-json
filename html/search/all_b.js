@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['wrongtypeexception_0',['WrongTypeException',['../struct_wrong_type_exception.html',1,'']]]
+  ['документация_0',['Документация',['../md__r_e_a_d_m_e.html#autotoc_md2',1,'']]]
 ];

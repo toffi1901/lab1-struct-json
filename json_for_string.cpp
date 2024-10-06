@@ -7,11 +7,16 @@
 
 #include "json_obj.h"
 
-std::vector<std::string> split(std::string &inputt)
+/*!
+ * @param inputt The input string containing the structure definition.
+ * @param delim Delimiters used to separate a string.
+ * @returns A vector of strings.
+ */
+
+std::vector<std::string> split(const std::string &inputt, const std::string &delim)
 {
     std::vector<std::string> tok;
     std::string::size_type start = 0;
-    std::string delim = " ,:{}";
     std::string::size_type end = inputt.find_first_of(delim, start);
     while (end != std::string::npos)
     {
@@ -29,43 +34,68 @@ std::vector<std::string> split(std::string &inputt)
     return tok;
 }
 
-void get_struct(const std::string &inputt, std::vector<std::string> &struct_types)
-{
+/*!
+ * @param str The string in which spaces will be removed.
+ * @returns A string without spaces.
+ */
 
-    std::string str = inputt;
+std::string trim(const std::string &str)
+{
+    auto first = str.find_first_not_of(" ");
+    auto last = str.find_last_not_of(" ");
+    if (first == str.npos)
+    {
+        return "";
+    }
+    return str.substr(first, last - first + 1);
+}
+
+/*!
+ * @param inputt The input string containing the structure definition.
+ * @returns A vector containing data types and their names.
+ * @throws WrongTypeException,If the element of vector uncorrected.
+ */
+
+std::vector<std::string> get_struct(const std::string &inputt)
+{
     const std::string types[] = {"char* ",
                                  "long ",
                                  "double ",
                                  "bool ",
                                  "void* "};
     std::string aux_type;
-    std::string aux_name;
-    std::vector<std::string> tok = split(str);
-    for (int i = 0; i < tok.size(); ++i)
-    {
-
-        int check_res = check_type(tok[i]);
-        if (i % 2 == 1)
-        {
-            aux_type = types[check_res];
-            aux_type += aux_name;
-            struct_types.push_back(aux_type);
-            aux_type.clear();
-        }
-        else
-        {
-            std::string new_word = tok[i].substr(1, tok[i].size() - 2);
-            aux_name = new_word;
-        }
-    }
+    std::string delim = "{},";
+    std::string str = trim(inputt);
+    str.erase(std::remove(str.begin(), str.end(), ' '), str.end());
+    std::vector<std::string> tok = split(str, delim);
+    std::vector<std::string> struct_types(tok.size());
+    std::transform(tok.begin(), tok.end(), struct_types.begin(), [&types](const std::string &val)
+                   { auto parts = split(val, ":");
+                   if (parts.size() != 2){
+                        throw WrongTypeException();
+                   }
+                    auto key = parts[0];
+                    auto value = parts[1];                
+                   auto aux_key = key.substr(1, key.size() - 2);   
+                   auto aux_type = types[check_type(value)]; 
+                   auto r =  aux_type + aux_key;                              
+                   return r; });
+    return struct_types;
 }
 
-void add_struct(std::string &res, std::vector<std::string> &struct_types, const std::string &struct_name)
+/*!
+ * @brief This function generates the result.
+ *
+ * @param struct_types A vector containing data types and their names.
+ * @param struct_name The name of the structure.
+ * @returns An integer as the result of connecting the elements of the vector.
+ */
+
+std::string add_struct(const std::vector<std::string> &struct_types, const std::string &struct_name)
 {
-    res += struct_name;
-    res += "\n{\n";
-    std::for_each(struct_types.begin(), struct_types.end() - 1, [](std::string &type)
-                  { type += ",\n"; });
-    res += std::accumulate(struct_types.begin(), struct_types.end(), std::string());
-    res += "\n}";
+    std::string res = struct_name + "\n{\n";
+    res += std::accumulate(struct_types.begin(), struct_types.end(), std::string(), [](const auto &l, const auto &r)
+                           { return l + r + ";\n"; });
+    res += "};";
+    return res;
 }
