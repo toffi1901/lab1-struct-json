@@ -1,8 +1,7 @@
 #include <vld.h>
 #include <iostream>
 #include <regex>
-#include <numeric>
-#include <limits>
+#include <readline/readline.h>
 
 #include "json_obj.h"
 
@@ -10,27 +9,15 @@ int main()
 {
     try
     {
-        std::string struct_name;
-        std::string inputt;
+        char *struct_name = NULL;
+        char *inputt = NULL;
         bool validInput = false;
         do
         {
             try
             {
-                std::cout << "Input struct name: ";
-                bool check = check_input(struct_name);
-                if (check == false)
-                {
-                    std::cout << "Input struct name: ";
-                    check = check_input(struct_name);
-                }
-                std::cout << "Input json string\n";
-                check = check_input(inputt);
-                if (check == false)
-                {
-                    std::cout << "Input json string\n";
-                    check = check_input(inputt);
-                }
+                struct_name = readline("Input struct name: ");
+                inputt = readline("Input struct name: ");
                 check_json(inputt);
                 validInput = true;
             }
@@ -44,8 +31,10 @@ int main()
                 return 1;
             }
         } while (!validInput);
-        std::string res = dio(inputt, struct_name);
+        char *res = NULL;
+        res = dio(inputt, struct_name);
         std::cout << res << std::endl;
+        delete[] res;
     }
     catch (WrongTypeException &e)
     {

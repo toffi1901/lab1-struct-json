@@ -4,8 +4,34 @@
 #include <cctype>
 #include <regex.h>
 #include <algorithm>
+#include <numeric>
+#include <limits>
 
 #include "json_obj.h"
+
+/*!
+ * @brief Checks the correctness of input.
+ *
+ * @param inputt The string to check.
+ * @throws std::invalid_argument() If std::cin.bad().
+ */
+
+bool check_input(std::string &inputt)
+{
+    std::getline(std::cin, inputt);
+    if (std::cin.bad())
+    {
+        std::cin.clear();
+        throw std::exception();
+    }
+    if (std::cin.fail() || std::cin.eof())
+    {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        return false;
+    }
+    return true;
+}
 
 /*!
  * @brief Checks the correctness of the given a C-style json string of char * type.
